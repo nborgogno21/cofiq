@@ -8,7 +8,19 @@ datasource db {
 }
 
 model Company {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  products  Product[]
+}
+
+model Product {
   id        Int      @id @default(autoincrement())
   name      String
+  price     Decimal  @db.Decimal(10, 2)
+  companyId Int
+  company   Company  @relation(fields: [companyId], references: [id])
   createdAt DateTime @default(now())
+
+  @@index([companyId])
 }
