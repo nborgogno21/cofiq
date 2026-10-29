@@ -12,6 +12,7 @@ model Company {
   name      String
   createdAt DateTime  @default(now())
   products  Product[]
+  users     User[]
 }
 
 model Product {
@@ -21,6 +22,17 @@ model Product {
   companyId Int
   company   Company  @relation(fields: [companyId], references: [id])
   createdAt DateTime @default(now())
+
+  @@index([companyId])
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  companyId    Int
+  company      Company  @relation(fields: [companyId], references: [id])
+  createdAt    DateTime @default(now())
 
   @@index([companyId])
 }
